@@ -13,7 +13,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 import matplotlib.pyplot as plt
 
-def nn():
+
+def nn_classification():
   ### ---------- DATA PREPROCESSING ---------- ###
 
   # Get preprocessed datasets

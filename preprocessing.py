@@ -2,7 +2,6 @@ import pandas as pd
 import datetime
 from sklearn.preprocessing import LabelEncoder
 
-
 year = datetime.date.today().year
 
 
@@ -14,6 +13,7 @@ def reset_type(df):
                     "surface_reelle_bati": int, 
                     "nombre_pieces_principales": int, 
                     "surface_terrain": int})
+
 
 def load_df(year_index):
     df = pd.read_csv("./data/75_{}.csv".format(year_index), encoding="utf-8")
@@ -31,6 +31,7 @@ def load_df(year_index):
 
     big_df = df.groupby(["code_postal", "code_type_local", "longitude", "latitude"])["valeur_fonciere", "surface_reelle_bati", "nombre_pieces_principales", "surface_terrain"].agg('mean').reset_index()
     return big_df
+
 
 def preprocessing():
     """
