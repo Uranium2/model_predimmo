@@ -1,11 +1,21 @@
-import pandas as pd
 import datetime
+import pandas as pd
+
 from sklearn.preprocessing import LabelEncoder
+
 
 year = datetime.date.today().year
 
 
 def reset_type(df):
+    """ Get dataframe and return it with specific type for some columns.
+
+    Args:
+        df [Dataframe]: Get dataframe.
+
+    Returns:
+        df [Dataframe]: Return dataframe with new type for some columns. 
+    """
     return df.astype({"valeur_fonciere_x": int, 
                     "valeur_fonciere_y": int, 
                     "code_postal": int, 
@@ -16,6 +26,14 @@ def reset_type(df):
 
 
 def load_df(year_index):
+    """ Load a dataframe with a specific year.
+
+    Args:
+        year_index [Int]: Get year index to load specific dataset.
+
+    Returns:
+        big_df [Dataframe]: Return a dataframe with all loaded dataframe in folder "data".
+    """
     df = pd.read_csv("./data/75_{}.csv".format(year_index), encoding="utf-8")
     df = df[["valeur_fonciere","code_postal", "code_type_local", "surface_reelle_bati", "nombre_pieces_principales", "surface_terrain", "longitude", "latitude"]]
     df.reset_index(drop=True)
@@ -34,14 +52,14 @@ def load_df(year_index):
 
 
 def preprocessing():
-    """
-    Create one dataset by merging two consecutive years with percent increase or decrease (property value Y & Y+1) and add labelization for each row.
+    """ Create one dataset by merging two consecutive years with percent increase or decrease (property value Y & Y+1) and add labelization for each row.
 
-    Return: Y_Y+1.csv (ex: "2016_2017.csv").
+    Create:
+        Y_Y+1.csv [.csv]: Create new dataset with consecutive year (ex: "2016_2017.csv").
     """
     for i in range(2015, year):
         for y in range(i + 1, year):
-            print(i, y)
+            print("\n > DATASET:", i, y)
             df_i = load_df(i)
             df_y = load_df(y)
 
@@ -81,6 +99,6 @@ def preprocessing():
             print("Categories Distribution in dataset\n", big_df['categorie'].value_counts())
    
             # Create new merged dataset without duplicates
-            print("Writting...")
+            print("\nWRITTING...")
             big_df.to_csv("./data/{}_{}.csv".format(i, y), index=False)
-            print("DONE WRITTING")
+            print("> DONE WRITTING")
