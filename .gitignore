@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# CSV
+leboncoin.csv
+
+# AWS Credentials
+aws_keys.txt
