@@ -100,5 +100,5 @@ def preprocessing():
    
             # Create new merged dataset without duplicates
             print("\nWRITTING...")
-            big_df.to_csv("./data/{}_{}.csv".format(i, y), index=False)
+            big_df.to_csv("./data/processed/{}_{}.csv".format(i, y), index=False)
             print("> DONE WRITTING")
