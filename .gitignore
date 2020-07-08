@@ -130,6 +130,7 @@ dmypy.json
 
 # CSV
 leboncoin.csv
+backup_rds_07-07-2020.csv
 
 # AWS Credentials
-aws_keys.txt
+aws_keys
