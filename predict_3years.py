@@ -197,6 +197,7 @@ def predict_classification_3years():
     print("PREDICTIONS FOR EACH DEPARTMENTS\n", df_pred)
 
     df_pred.to_csv(DATA_PREDICTIONS + "prediction_3years.csv", index=False)
+    print(" (+) Successfully created dataset in \'" + DATA_PREDICTIONS + "prediction_3years.csv\'\n")
 
 
   X_init, X = data_preprocessing()

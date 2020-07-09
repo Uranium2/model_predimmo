@@ -73,7 +73,7 @@ def preprocessing_current_year():
 
     df = reset_type(df)
 
-    df = df[["code_postal", "code_type_local", "valeur_fonciere"]]
+    df = df[["code_postal", "code_type_local", "valeur_fonciere", "surface_reelle_bati"]]
     print("\n > DATASET CURRENT YEAR => READY FOR PREDICTIONS\n", df)
 
     # Create new merged dataset without duplicates
