@@ -9,12 +9,8 @@ import datetime
 import numpy as np
 import pandas as pd
 
-# from fake_headers import Headers
-
 
 DATA_PREDICTIONS = "./data/predictions/"
-
-# header = Headers(headers=True)
 
 
 def push_data_to_RDS():
@@ -29,7 +25,6 @@ def push_data_to_RDS():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     f = open(os.path.join(dir_path, "aws_keys"), "r")
     keys = f.read().split("\n")
-    # print("\nAWS_KEYS\n", keys)
 
     return pymysql.connect(
         host=keys[2],
@@ -39,6 +34,11 @@ def push_data_to_RDS():
 
 
   def get_predicted_data():
+    """ Get all csv previously created after making new predictions.
+
+    Returns:
+        df [dataframe]: Return a dataframe with all csv with their trending.
+    """
     print("\nIMPORTING PREDICTED DATASET(S)...")
     os.chdir(DATA_PREDICTIONS)
 
@@ -110,6 +110,7 @@ def push_data_to_RDS():
 
   def send_to_rds(df, conn):
     """ Upload a dataframe in RDS by PyMySQL.
+
     Args:
         df [Dataframe]: Get a dataframe to upload.
         conn [String]: SQL Statement to RDS.
@@ -149,6 +150,8 @@ def push_data_to_RDS():
 
 
   def display_table_RDS():
+    """ Get all data on AWS RDS Database and display it in terminal. That let us check the last commit on RDS Database.
+    """
     conn = create_conn()
     print(" > DISPLAY DATA FROM RDS\n")
 
@@ -165,11 +168,9 @@ def push_data_to_RDS():
 
   conn = create_conn()   
   df = get_predicted_data()
-  # df = pd.read_csv("./data/fake.csv", encoding="utf-8")
   send_to_rds(df, conn)
   display_table_RDS()
 
   print("\n#################################################################")
   print("#####       PROCESSUS FINISHED: RDS HAS BEEN UPDATED!       #####")
   print("#################################################################\n")
-  

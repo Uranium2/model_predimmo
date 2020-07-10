@@ -69,7 +69,6 @@ def preprocessing_3years():
 
             # Merge two datasets by "code_postal", "code_type_local", "surface_reelle_bati", "nombre_pieces_principales", "surface_terrain", "longitude", "latitude"
             big_df = pd.merge(df_i, df_y, how="inner",  on=["code_postal", "code_type_local", "surface_reelle_bati", "nombre_pieces_principales", "surface_terrain", "longitude", "latitude"])
-            # big_df = big_df.rename(columns={"valeur_fonciere_x": "valeur_fonciere_{}".format(i), "valeur_fonciere_y": "valeur_fonciere_{}".format(y)})
             big_df.reset_index(drop=True)
            
             print(big_df)

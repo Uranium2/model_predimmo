@@ -24,6 +24,11 @@ SAVE_MODEL_NAME = "_model_predimmo_3years"
 
 def training_classification_3years():
   def data_preprocessing():
+    """ Get raw datasets and return 4 data-preprocessed dataset for training model and test it.
+
+    Returns:
+        X_train, X_val, y_train, y_val [Dataframe]: Return 4 dataframes for train & test.
+    """
     # Import preprocessed datasets
     print("\nIMPORT DATASETS...")
 
@@ -88,6 +93,17 @@ def training_classification_3years():
 
 
   def deep_learning_model(X_train, X_val, y_train, y_val):
+    """ Script that create & set deep learning model, train & save it. 
+
+    Args:
+        X_train [Dataframe]: Matrix for training.
+        X_val [Dataframe]: Matric for validation.
+        y_train [Dataframe]: Vector for training.
+        y_val [Dataframe]: Vector for validation.
+
+    Create:
+        AAAA_MM_JJ_model_name_Xyear.h5 [model_artifac]: Create à model artifact to made predictions on new data..
+    """
     print("\nSTART DEEP LEARNING => TRAINING...")
 
     # HYPERPARAMETERS FOR NEURAL NETWORK (NN)

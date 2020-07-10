@@ -48,6 +48,11 @@ def predict_classification_3years():
 
 
   def get_data_RDS():
+    """ Get data from AWS RDS database.
+
+    Returns:
+        result [list]: Return SQL request in list.
+    """
     conn = create_conn()
     print("IMPORTING DATASET FROM RDS => PREDICTIONS...")
     print(" (V) Successfully connected to RDS: Predimmo.data_django.")
@@ -66,6 +71,11 @@ def predict_classification_3years():
 
 
   def data_preprocessing():
+    """ Data-preprocess dataset to correctly using it with deep learning model.
+
+    Returns:
+        X_init, X [Dataframe]: Initial matric dataframe and another normalized.
+    """
     result = get_data_RDS()
 
     print(" (V) Successfully pulled all data from RDS: Predimmo.data_django.")
@@ -130,6 +140,14 @@ def predict_classification_3years():
 
 
   def deep_learning_model(X):
+    """ Script for making new predictions on new data and return it.
+
+    Args:
+        X [dataframe]): Matrix dataframe previoulsy data-preprocessed.
+
+    Returns:
+        y [dataframe]: Return predictions.
+    """
     print("\nRELOAD DEEP LEARNING MODEL...\n")
 
     # HYPERPARAMETERS FOR NEURAL NETWORK (NN)
@@ -186,6 +204,15 @@ def predict_classification_3years():
 
 
   def prediction_to_csv(X_init, y):
+    """ Convert dataframe to csv before sending it to RDS.
+
+    Args:
+        X_init [dataframe]: Initial matrix for preprocessed dataframe.
+        y [dataframe]: New predictions.
+
+    Create:
+        .../prediction_Xyears.csv [CSV]: Create 1 prediction dataframe in 1 CSV.
+    """
     y = [np.argmax(i) for i in y]
 
     X_init['prediction_3'] = y
