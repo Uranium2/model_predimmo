@@ -128,9 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# CSV
-leboncoin.csv
-backup_rds_07-07-2020.csv
+# Files types
+*.csv
+
+# Except for these files!
+!/data/raw/
 
 # AWS Credentials
 aws_keys
