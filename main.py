@@ -11,12 +11,12 @@ from predict_current_year import predict_current_year
 from rds import push_data_to_RDS
 
 if __name__ == "__main__":
-    # preprocessing_1year()
-    # preprocessing_3years()
-    # preprocessing_current_year()
-    # training_classification_1year()
-    # training_classification_3years()
-    # predict_classification_1year()
-    # predict_classification_3years()
+    preprocessing_1year()
+    preprocessing_3years()
+    preprocessing_current_year()
+    training_classification_1year()
+    training_classification_3years()
+    predict_classification_1year()
+    predict_classification_3years()
     predict_current_year()
-    # push_data_to_RDS()
+    push_data_to_RDS()

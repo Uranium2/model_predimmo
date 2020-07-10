@@ -9,12 +9,12 @@ import datetime
 import numpy as np
 import pandas as pd
 
-from fake_headers import Headers
+# from fake_headers import Headers
 
 
-DATA_PREDICTIONS = "./data/prediction/"
+DATA_PREDICTIONS = "./data/predictions/"
 
-header = Headers(headers=True)
+# header = Headers(headers=True)
 
 
 def push_data_to_RDS():
@@ -42,14 +42,68 @@ def push_data_to_RDS():
     print("\nIMPORTING PREDICTED DATASET(S)...")
     os.chdir(DATA_PREDICTIONS)
 
+    df = pd.DataFrame()
+
+    zip_code = [75001, 
+                75002, 
+                75003, 
+                75004, 
+                75005, 
+                75006, 
+                75007, 
+                75008, 
+                75009, 
+                75010, 
+                75011, 
+                75012, 
+                75013, 
+                75014, 
+                75015, 
+                75016, 
+                75017, 
+                75018, 
+                75019, 
+                75020]
+
+    df = pd.DataFrame(zip_code, columns=["code_postal"])
+
     # Get all CSV file
     all_csv = [i for i in glob.glob('*.csv')]
     
     # Convert CSV to Dataframe and concatenate them all in one
-    df = pd.concat([pd.read_csv(f) for f in all_csv])
+    all_df = [pd.read_csv(f) for f in all_csv]
 
-    print(df)
+    for i in all_df:
+      df = pd.merge(df, i, how="right")
+
+    print("\nDF\n", df)
     print(df.shape)
+
+    keys = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    values = [-62.5, -37.5, -17.5, -7.5, -2.5, 2.5, 7.5, 17.5, 37.5, 62.5, 87.5, 112.5, 137.5, 162.5, 187.5]
+
+    converter = dict(zip(keys, values))
+
+    df_converter_prediction_1 = pd.DataFrame(converter.items(),
+                                             columns=['prediction_1', 
+                                                      'prediction_1*'])
+
+    df_converter_prediction_3 = pd.DataFrame(converter.items(),
+                                             columns=['prediction_3', 
+                                                      'prediction_3*'])
+
+    df = pd.merge(df, df_converter_prediction_1)
+    df = pd.merge(df, df_converter_prediction_3)
+
+    del df['prediction_1']
+    del df['prediction_3']
+
+    df = df.rename(columns={'prediction_1*': 'prediction_1'})
+    df = df.rename(columns={'prediction_3*': 'prediction_3'})
+
+    print("\nDF - CAT -> %\n", df)
+
+    df.to_csv("../data_to_rds.csv", index=False)
 
     return df
 
@@ -87,30 +141,35 @@ def push_data_to_RDS():
       
       print(sql)
       print(" > ({})".format(index), insert_data)
-      
+    
       cursor.execute(sql, tuple(insert_data))
       conn.commit()
     
     print("\n(V) DONE!")
-  
+
 
   def display_table_RDS():
     conn = create_conn()
-    print("PRINT DATA FROM RDS")
+    print(" > DISPLAY DATA FROM RDS\n")
 
     try:
       with conn.cursor() as cursor:
         request = "SELECT * FROM predimmo.prediction"
-        print("REQUEST\n", request)
         cursor.execute(request)
         result = cursor.fetchall()
     finally:
       conn.close()
 
-    print("\nTABLE: prediction\n", pd.DataFrame(result))
+    print(pd.DataFrame(result))
 
 
   conn = create_conn()   
   df = get_predicted_data()
+  # df = pd.read_csv("./data/fake.csv", encoding="utf-8")
   send_to_rds(df, conn)
   display_table_RDS()
+
+  print("\n#################################################################")
+  print("#####       PROCESSUS FINISHED: RDS HAS BEEN UPDATED!       #####")
+  print("#################################################################\n")
+  

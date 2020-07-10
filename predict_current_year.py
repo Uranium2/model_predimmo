@@ -67,29 +67,32 @@ def predict_current_year():
 
 
   def data_preprocessing(df_home, df_appart):
-    # print("\nGROUPING BY ZIP_CODE...")
+    print("\nGROUPING BY ZIP_CODE...")
 
-    # df_home = df_home.groupby('code_postal', as_index=False)['valeur_fonciere'].mean()
-    # df_appart = df_appart.groupby('code_postal', as_index=False)['valeur_fonciere', 'surface_reelle_bati'].mean()
+    df_home = df_home.groupby('code_postal', as_index=False)['valeur_fonciere'].mean()
+    df_appart = df_appart.groupby('code_postal', as_index=False)['valeur_fonciere', 'surface_reelle_bati'].mean()
 
-    # # print('DF_HOME - MEAN BY ZIP CODE\n', df_home)
-    # # print('\nDF_APPART - MEAN BY ZIP CODE\n', df_appart)
+    # print('DF_HOME - MEAN BY ZIP CODE\n', df_home)
+    # print('\nDF_APPART - MEAN BY ZIP CODE\n', df_appart)
 
-    # # Calculate Appartment's price / m²
-    # df_appart['valeur_fonciere'] = df_appart['valeur_fonciere'] / df_appart['surface_reelle_bati']
+    # Calculate Appartment's price / m²
+    df_appart['valeur_fonciere'] = df_appart['valeur_fonciere'] / df_appart['surface_reelle_bati']
 
-    # # print('\nDF_APPART - PRICE / M²\n', df_appart)
+    # print('\nDF_APPART - PRICE / M²\n', df_appart)
 
-    # df_appart = df_appart.drop('surface_reelle_bati', axis=1)
+    df_appart = df_appart.drop('surface_reelle_bati', axis=1)
 
-    # # print('\nDF_APPART - DROP M²\n', df_appart)
+    # print('\nDF_APPART - DROP M²\n', df_appart)
 
-    # # Change types
-    # df_home = df_home.astype({"code_postal": int, 
-    #                           "valeur_fonciere": int})
+    # Change types
+    df_home = df_home.astype({"code_postal": int, 
+                              "valeur_fonciere": int})
 
-    # df_appart = df_appart.astype({"code_postal": int, 
-    #                               "valeur_fonciere": int})
+    df_appart = df_appart.astype({"code_postal": int, 
+                                  "valeur_fonciere": int})
+
+    # print("\nDF_HOME - PRICING / ZIP CODE", df_home)
+    # print("\nDF_APPART - PRICING / ZIP CODE", df_appart)
 
     # Replace missing value in df_home
     zip_code = [75001, 
@@ -113,23 +116,19 @@ def predict_current_year():
                 75019, 
                 75020]
 
-    zip_code = pd.DataFrame(zip_code, columns=["code_postal"])
-    print("ZIP_CODE\n", zip_code)
+    df_zip_code = pd.DataFrame(list(zip(zip_code, zip_code)), columns=["code_postal", "x"])
 
-    print("\nDF_HOME\n", df_home)
+    # print("\nDF_HOME - MISSING ROW(S)\n", df_home)
+    print("\nADDING MISSING ZIP CODE AND FILL WITH -1 WHEN NO DATA...")
 
-    # for i in zip_code:
-      # if i not in df_home['code_postal']:
+    df_home = df_zip_code.merge(df_home, on='code_postal', how='left')
 
-    # res = zip_code.code_postal.isin(df_home)
+    del  df_home['x']
 
-    for index, row in zip_code.iterrows():
-      if zip_code.code_postal.isin(df_home.code_postal) == False:
-        df_home = df_home["code_postal"].append(row)
+    df_home["valeur_fonciere"] = df_home["valeur_fonciere"].fillna(-1)
+    df_home = df_home.astype({"valeur_fonciere": int})
 
-    print("\nRESULT\n", df_home)
-
-    exit()
+    # print("\nDF_HOME\n", df_home)
 
     return df_home, df_appart
 
@@ -146,10 +145,8 @@ def predict_current_year():
     print("\n (+) Successfully created dataset in \'" + DATA_PREDICTIONS + "prix_maison.csv\'")
     print(" (+) Successfully created dataset in \'" + DATA_PREDICTIONS + "prix_m2_appart.csv\'\n")
 
-  # df_home, df_appart = get_dataset()
-  
-  df_home = pd.read_csv("./df_home.csv", encoding="utf-8")
-  df_appart = pd.read_csv("./df_appart.csv", encoding="utf-8")
-  
+  # df_home = pd.read_csv("./df_home.csv", encoding="utf-8")
+  # df_appart = pd.read_csv("./df_appart.csv", encoding="utf-8")
+  df_home, df_appart = get_dataset()
   df_home, df_appart = data_preprocessing(df_home, df_appart)
   prediction_to_csv(df_home, df_appart)
