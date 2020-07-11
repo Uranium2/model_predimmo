@@ -131,6 +131,10 @@ def predict_current_year():
     df_home["valeur_fonciere"] = df_home["valeur_fonciere"].fillna(-1)
     df_home = df_home.astype({"valeur_fonciere": int})
 
+    # Rename "valeur_fonciere" column by their type_local for a better understanding code
+    df_home = df_home.rename(columns={"valeur_fonciere": "prix_m2_maison"})
+                            
+    df_appart = df_appart.rename(columns={"valeur_fonciere": "prix_m2_appart"})
 
     return df_home, df_appart
 

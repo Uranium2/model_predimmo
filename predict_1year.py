@@ -198,7 +198,7 @@ def predict_classification_1year():
 
     print("\n--- Training duration: %s ---" % (str(datetime.timedelta(seconds = (time.time() - start_time)))))
     
-    print("#################################################################\n")
+    print("\n#################################################################\n")
 
     return y
 
