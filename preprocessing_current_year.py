@@ -67,6 +67,10 @@ def preprocessing_current_year():
     Create:
         Y_Y+3.csv [.csv]: Create new dataset with consecutive year (ex: "2015_2018.csv").
     """
+    print("\n#################################################################")
+    print("###################     MODEL CURRENT YEAR    ###################")
+    print("#################################################################\n")
+
     df = load_df()
 
     print("\n > DATASET RAW\n", df)

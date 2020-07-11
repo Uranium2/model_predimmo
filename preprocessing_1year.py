@@ -61,6 +61,10 @@ def preprocessing_1year():
     Create:
         Y_Y+1.csv [.csv]: Create new dataset with consecutive year (ex: "2016_2017.csv").
     """
+    print("\n#################################################################")
+    print("######################     MODEL 1 YEAR    ######################")
+    print("#################################################################\n")
+
     for i in range(2015, year):
         for y in range(i + 1, year):
             print("\n > DATASET:", i, y)

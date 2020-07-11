@@ -61,6 +61,10 @@ def preprocessing_3years():
     Create:
         Y_Y+3.csv [.csv]: Create new dataset with consecutive year (ex: "2015_2018.csv").
     """
+    print("\n#################################################################")
+    print("######################    MODEL 3 YEARS    ######################")
+    print("#################################################################\n")
+    
     for i in range(2015, year):
         for y in range(i + 3, year):
             print("\n > DATASET:", i, y)
