@@ -67,14 +67,19 @@ def push_data_to_RDS():
 
     df = pd.DataFrame(zip_code, columns=["code_postal"])
 
+    print("\nDF_ZIPCODE\n", df)
+
+
+
     # Get all CSV file
     all_csv = [i for i in glob.glob('*.csv')]
-    
-    # Convert CSV to Dataframe and concatenate them all in one
-    all_df = [pd.read_csv(f) for f in all_csv]
 
-    for i in all_df:
-      df = pd.merge(df, i, how="right")
+    print("\nALL_CSV\n", all_csv)
+    print("\ntype - ALL_CSV\n", type(all_csv))
+    
+    # Convert CSV to Dataframe and merge them all in one
+    for i in all_csv:
+      df = pd.merge(df, pd.read_csv(i), on="code_postal", how="right")
 
     print("\nDF\n", df)
     print(df.shape)
@@ -103,6 +108,13 @@ def push_data_to_RDS():
 
     print("\nDF - CAT -> %\n", df)
 
+    # Sort dataframe ascending with column "code_postal"
+    df = df.sort_values(by=['code_postal'])
+
+    print("\nDF - SORTED & READY TO SEND TO RDS\n", df)
+
+
+    # Locally saved dataframe send to RDS in "./data/data_to_rds.csv"
     df.to_csv("../data_to_rds.csv", index=False)
 
     return df
@@ -170,7 +182,3 @@ def push_data_to_RDS():
   df = get_predicted_data()
   send_to_rds(df, conn)
   display_table_RDS()
-
-  print("\n#################################################################")
-  print("#####       PROCESSUS FINISHED: RDS HAS BEEN UPDATED!       #####")
-  print("#################################################################\n")
