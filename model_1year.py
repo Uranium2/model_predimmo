@@ -118,7 +118,7 @@ def training_classification_1year():
     LEARNING_RATE = 0.001
     OPTIMIZER = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
     BATCH_SIZE = 64
-    EPOCHS = 700
+    EPOCHS = 500
     LOSS = 'categorical_crossentropy'
     METRICS = ['categorical_accuracy']
 
