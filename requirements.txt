@@ -3,7 +3,7 @@ astunparse==1.6.3
 boto3==1.14.12
 botocore==1.17.12
 cachetools==4.1.1
-certifi==2020.6.20
+certifi==2023.7.22
 chardet==3.0.4
 cycler==0.10.0
 docutils==0.15.2
